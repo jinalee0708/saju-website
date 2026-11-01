@@ -1,0 +1,265 @@
+/* ===== 사주운세 스타일 ===== */
+:root {
+  --bg: #f6f3ee;
+  --card: #ffffff;
+  --ink: #2b2620;
+  --muted: #8a8274;
+  --line: #e8e2d8;
+  --accent: #b5452f;
+  --accent-dark: #93371f;
+  --gold: #b98a2f;
+  --wood: #3e7d4f;
+  --fire: #c34a2f;
+  --earth: #b98a2f;
+  --metal: #9aa3ad;
+  --water: #2f6bb5;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(70, 55, 30, 0.08);
+  --font: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+.hidden { display: none !important; }
+.muted { color: var(--muted); font-size: 0.92rem; }
+.hint { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
+
+/* ===== 헤더 ===== */
+.site-header {
+  background: linear-gradient(135deg, #2b2620, #4a3a2b);
+  color: #f6f3ee;
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px;
+  background: var(--accent); color: #fff;
+  font-size: 1.4rem; border-radius: 12px;
+}
+.brand-title { font-size: 1.15rem; letter-spacing: 0.5px; }
+.brand-sub { font-size: 0.8rem; opacity: 0.75; }
+.header-nav { display: flex; gap: 16px; }
+.header-nav a { color: #f6f3ee; text-decoration: none; font-size: 0.9rem; opacity: 0.85; }
+.header-nav a:hover { opacity: 1; text-decoration: underline; }
+
+/* ===== 카드 ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px;
+  margin: 22px 0;
+}
+.card-head { margin-bottom: 18px; }
+.card-head h2 { font-size: 1.2rem; margin-bottom: 2px; }
+.card-head p { margin-top: 2px; }
+
+/* ===== 폼 ===== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.form-grid.two-col { grid-template-columns: 1fr 1fr; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field span { font-size: 0.88rem; font-weight: 600; color: #5c5344; }
+input, select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fdfcfa;
+  color: var(--ink);
+  width: 100%;
+}
+input:focus, select:focus { outline: 2px solid var(--gold); border-color: var(--gold); }
+
+.btn-primary {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  padding: 13px 26px;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+}
+.btn-primary:hover { background: var(--accent-dark); }
+
+/* ===== 로딩 ===== */
+.loading-wrap { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 10px 0; }
+.spinner {
+  width: 26px; height: 26px;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== 사주팔자 ===== */
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.pillar {
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 8px 12px;
+  background: #fdfcfa;
+  position: relative;
+}
+.pillar-name { font-size: 0.78rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; }
+.pillar-label { font-size: 1.7rem; font-weight: 800; letter-spacing: 1px; }
+.pillar-hanja { font-size: 0.95rem; color: var(--muted); margin-top: 2px; }
+.pillar-animal { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+.pillar .pillar-mark {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 20px; color: #fff;
+}
+
+.summary-banner {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #faf3e4;
+  border: 1px solid #ecd9b0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+.summary-banner strong { color: var(--accent-dark); }
+
+/* ===== 오행 분포 ===== */
+.element-bars { display: flex; flex-direction: column; gap: 12px; }
+.element-row { display: grid; grid-template-columns: 64px 1fr 30px; align-items: center; gap: 12px; }
+.element-name { font-size: 0.92rem; font-weight: 700; }
+.element-track { height: 14px; background: #f0ebe2; border-radius: 20px; overflow: hidden; }
+.element-fill { height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+.element-count { font-size: 0.9rem; color: var(--muted); text-align: right; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.tag {
+  font-size: 0.85rem; font-weight: 600;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--line); background: #fdfcfa;
+}
+.tag.strong { background: #fdeeee; border-color: #f0b9ab; color: var(--accent-dark); }
+.tag.weak { background: #eef4fd; border-color: #bcd2ef; color: #274d7d; }
+
+/* ===== 용신 ===== */
+.yongsin-body { display: flex; flex-direction: column; gap: 10px; }
+.yongsin-row { display: flex; align-items: center; gap: 14px; }
+.yongsin-label { font-size: 0.85rem; color: var(--muted); width: 90px; flex-shrink: 0; }
+.yongsin-chip {
+  font-size: 1.05rem; font-weight: 800;
+  padding: 8px 18px; border-radius: 12px; color: #fff;
+}
+
+/* ===== 탭 ===== */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.tab-btn {
+  font-family: inherit; font-size: 0.9rem; font-weight: 600;
+  padding: 9px 18px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fdfcfa; color: #5c5344;
+  cursor: pointer; transition: all 0.15s;
+}
+.tab-btn:hover { border-color: var(--gold); color: var(--gold); }
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.tab-panel { padding: 6px 2px; }
+.tab-summary { font-size: 1.02rem; margin-bottom: 14px; line-height: 1.7; }
+.tab-guidance { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.tab-guidance li {
+  padding: 12px 16px;
+  background: #faf3e4;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.tab-caveat {
+  margin-top: 14px; font-size: 0.82rem; color: var(--muted);
+  padding: 10px 14px; background: #f7f4ee; border-radius: 8px;
+}
+
+/* ===== 궁합 ===== */
+.compat-form .form-grid { margin-bottom: 18px; }
+.compat-block {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fdfcfa;
+}
+.compat-block h3 { font-size: 0.95rem; color: #5c5344; }
+.compat-result { margin-top: 20px; }
+.compat-score {
+  text-align: center; padding: 22px;
+  border-radius: 14px; color: #fff; margin-bottom: 16px;
+}
+.compat-score .score-num { font-size: 2.6rem; font-weight: 800; }
+.compat-score .score-label { font-size: 0.9rem; opacity: 0.9; }
+.compat-detail { display: flex; flex-direction: column; gap: 10px; }
+.compat-detail li {
+  padding: 12px 16px; background: #faf3e4;
+  border-left: 4px solid var(--gold); border-radius: 8px; font-size: 0.93rem;
+  list-style: none;
+}
+.compat-people { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.compat-person {
+  flex: 1; min-width: 200px;
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px;
+}
+.compat-person h4 { font-size: 0.92rem; margin-bottom: 8px; color: #5c5344; }
+.compat-person .pill { display: inline-block; margin: 3px 4px 0 0; }
+
+/* ===== 에러 & 디스클레이머 ===== */
+.error-body {
+  padding: 18px;
+  background: #fdeeee;
+  border: 1px solid #f0b9ab;
+  border-radius: 12px;
+  color: #7d2a1a;
+  font-weight: 600;
+}
+.disclaimer {
+  margin: 28px 0;
+  font-size: 0.82rem; color: var(--muted);
+  text-align: center;
+}
+
+/* ===== 푸터 ===== */
+.site-footer {
+  margin-top: 40px;
+  background: #2b2620; color: #cbbfa9;
+  padding: 22px 0; text-align: center; font-size: 0.82rem;
+}
+.site-footer code { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 6px; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 640px) {
+  .pillars { grid-template-columns: repeat(2, 1fr); }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid.two-col { grid-template-columns: 1fr; }
+  .header-nav { display: none; }
+  .card { padding: 20px; }
+}
