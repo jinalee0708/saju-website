@@ -14,6 +14,58 @@
     water: { ko: "수", color: "var(--water)", label: "수(水)" },
   };
 
+  // 일간 오행별 귀여운 동물 캐릭터
+  const CHARACTERS = {
+    wood: {
+      name: "토닥토닥 토끼",
+      species: "토끼",
+      body: "#c9e6cf", face: "#fdf3f0", ear: "#8fc4a0", accent: "#e88ca0",
+      desc: "부드럽고 쑥쑥 자라는 기운. 나를 먼저 챙기는 온기와 함께라면 어디서든 싹을 틔워요.",
+      // 귀 모양: 길쭉한 토끼 귀
+      ears: 'M38 58 Q30 18 52 22 Q56 40 52 58 Z M102 58 Q110 18 88 22 Q84 40 88 58 Z',
+    },
+    fire: {
+      name: "불꽃 여우",
+      species: "여우",
+      body: "#ffd0a8", face: "#fff6ee", ear: "#ff9d66", accent: "#ff5d5d",
+      desc: "따뜻하고 단단한 열정. 마음이 불타오를 때 그 에너지로 사람들을 이끄는 재능이 있어요.",
+      ears: 'M40 62 L34 24 L62 46 Z M100 62 L106 24 L78 46 Z',
+    },
+    earth: {
+      name: "든든 곰",
+      species: "곰",
+      body: "#d8b48a", face: "#f6ead9", ear: "#b98a5f", accent: "#8a5f3a",
+      desc: "신뢰를 만드는 중심기둥. 느긋하지만 한 번 다짐하면 어떤 일도 끝까지 책임지는 힘의 소유자예요.",
+      ears: 'M40 66 a14 14 0 1 1 0 1 M100 66 a14 14 0 1 1 0 1',
+    },
+    metal: {
+      name: "냐옹 고양이",
+      species: "고양이",
+      body: "#cdd6e0", face: "#fbfcfe", ear: "#a8b4c2", accent: "#7a6bff",
+      desc: "날카롭고 단정한 감각. 좋고 싫음이 선명하고, 정한 기준은 흔들리지 않는 확고한 심지를 지녔어요.",
+      ears: 'M36 62 L38 20 L66 44 Z M104 62 L102 20 L74 44 Z',
+    },
+    water: {
+      name: "반짝 수달",
+      species: "수달",
+      body: "#bcd7ee", face: "#f2f9ff", ear: "#7fb3dd", accent: "#3f8ad1",
+      desc: "유연하고 깊은 공감 능력. 흐름을 읽는 눈빛으로 누구와도 자연스럽게 연결되는 매력이 있어요.",
+      ears: 'M40 68 a11 11 0 1 1 0 1 M100 68 a11 11 0 1 1 0 1',
+    },
+  };
+
+  // MBTI 축별 해석 문구
+  const MBTI_READINGS = {
+    E: { axis: "EI", label: "외향형 (E)", text: "바깥 활동과 사람 만남에서 에너지를 얻어요. 활발한 기운이 사주의 강한 오행과 만나 더 빛납니다." },
+    I: { axis: "EI", label: "내향형 (I)", text: "혼자만의 시간에서 에너지를 회복해요. 깊은 집중력이 사주의 부족한 오행을 보완해줍니다." },
+    S: { axis: "SN", label: "감각형 (S)", text: "지금 눈앞의 현실과 경험을 중시해요. 흙처럼 단단한 현실감으로 목표를 이루는 힘이 있습니다." },
+    N: { axis: "SN", label: "직관형 (N)", text: "미래와 가능성을 상상하는 데 강해요. 물과 불처럼 흐르는 상상력이 새로운 길을 엽니다." },
+    T: { axis: "TF", label: "사고형 (T)", text: "논리와 원칙으로 판단해요. 쇠처럼 단단한 판단력이 흔들림 없는 결정을 만듭니다." },
+    F: { axis: "TF", label: "감정형 (F)", text: "사람의 마음과 관계를 중시해요. 따뜻한 감성이 상대의 마음을 여는 열쇠가 됩니다." },
+    J: { axis: "JP", label: "판단형 (J)", text: "계획과 마감을 세워 움직여요. 가지런한 질서가 부족한 기운을 잡아주는 버팀목입니다." },
+    P: { axis: "JP", label: "인식형 (P)", text: "유연하게 흐르는 대로 대응해요. 막힘없는 여유가 상황을 자연스럽게 풀어갑니다." },
+  };
+
   const FORTUNE_TABS = [
     { type: "general", label: "종합운" },
     { type: "love",    label: "연애운" },
@@ -41,6 +93,35 @@
     runCompatibility();
   });
 
+  /* ---------- MBTI 선택 ---------- */
+  const mbtiSelected = {};
+  const MBTI_AXIS_ORDER = ["EI", "SN", "TF", "JP"];
+
+  document.querySelectorAll(".mbti-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const axis = btn.dataset.axis;
+      mbtiSelected[axis] = btn.dataset.value;
+      // 같은 축 안에서 active 표시 갱신
+      document.querySelectorAll('.mbti-btn[data-axis="' + axis + '"]').forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      updateMbtiPreview();
+    });
+  });
+
+  function getMbti() {
+    let result = "";
+    MBTI_AXIS_ORDER.forEach(function (axis) {
+      result += mbtiSelected[axis] || "";
+    });
+    return result; // 예: "ENFP", 또는 미완성일 땐 짧은 문자열
+  }
+
+  function updateMbtiPreview() {
+    const mbti = getMbti();
+    $("mbti-preview").textContent = mbti.length === 4 ? mbti : (mbti || "–");
+  }
+
   function readInput() {
     return {
       name: $("input-name").value.trim() || undefined,
@@ -48,6 +129,7 @@
       birthTime: $("input-time").value || undefined,
       gender: $("input-gender").value,
       calendar: "solar",
+      mbti: getMbti() || undefined,
     };
   }
 
@@ -71,6 +153,7 @@
       renderSaju(result);
       renderElements(result);
       renderYongsin(result);
+      renderCharacter(result, input.mbti);
       renderFortuneTabs(result);
       fillCompatSelf(input);
       window.scrollTo({ top: $("results").offsetTop - 70, behavior: "smooth" });
@@ -194,6 +277,116 @@
     const note = el("p", "muted", ys.reasoning);
     note.style.marginTop = "10px";
     body.appendChild(note);
+  }
+
+  /* ---------- MBTI × 사주 캐릭터 ---------- */
+  function renderCharacter(result, mbti) {
+    const element = result.dayMaster.element;
+    const char = CHARACTERS[element];
+    if (!char) return;
+    if (!mbti) mbti = "";
+
+    $("character-svg").innerHTML = buildCharacterSvg(element, mbti);
+    $("character-name").textContent = char.name;
+    $("character-name").style.color = ELEMENT_META[element].color;
+
+    // 태그
+    const tags = $("character-tags");
+    tags.innerHTML = "";
+    tags.appendChild(el("span", "tag", ELEMENT_META[element].label + " 일간"));
+    tags.appendChild(el("span", "tag", char.species + " 캐릭터"));
+    if (mbti && mbti.length === 4) {
+      const t = el("span", "tag", mbti + " × " + ELEMENT_META[element].ko);
+      t.style.borderColor = ELEMENT_META[element].color;
+      t.style.color = ELEMENT_META[element].color;
+      tags.appendChild(t);
+    }
+
+    $("character-desc").textContent = char.desc;
+
+    // MBTI 해석
+    const reading = $("mbti-reading");
+    reading.innerHTML = "";
+    if (mbti && mbti.length === 4) {
+      mbti.split("").forEach(function (letter) {
+        const info = MBTI_READINGS[letter];
+        if (!info) return;
+        const item = el("div", "reading-item");
+        const b = el("b", "", info.label + " · ");
+        item.appendChild(b);
+        item.appendChild(document.createTextNode(info.text));
+        reading.appendChild(item);
+      });
+    } else {
+      const item = el("div", "reading-item");
+      item.innerHTML = "MBTI를 선택하면 오행과 어울리는 성향 해석을 볼 수 있어요! 🐾";
+      reading.appendChild(item);
+    }
+  }
+
+  /* ---------- SVG 귀여운 캐릭터 ---------- */
+  function buildCharacterSvg(element, mbti) {
+    const char = CHARACTERS[element];
+    const m = mbti && mbti.length === 4 ? mbti : "";
+
+    // 표정: E는 반짝 큰 눈, I는 부드러운 눈
+    const eyesOpen = m.charAt(0) === "E";
+    // 뺨: F는 분홍 뺨, 아니면 연한 뺨
+    const blush = m.charAt(2) === "F";
+    // 입: F는 크게 웃음, T는 작은 미소
+    const wideMouth = m.charAt(2) === "F";
+    // 장식: J는 나비넥타이, P는 리본
+    const bow = m.charAt(3) === "J";
+    const ribbon = m.charAt(3) === "P";
+
+    const eye = eyesOpen
+      ? '<circle cx="55" cy="86" r="6" fill="#3b3128"/><circle cx="57" cy="84" r="2" fill="#fff"/>' +
+        '<circle cx="85" cy="86" r="6" fill="#3b3128"/><circle cx="87" cy="84" r="2" fill="#fff"/>'
+      : '<path d="M49 84 Q55 88 61 84" stroke="#3b3128" stroke-width="4" stroke-linecap="round" fill="none"/>' +
+        '<path d="M79 84 Q85 88 91 84" stroke="#3b3128" stroke-width="4" stroke-linecap="round" fill="none"/>';
+
+    const cheek = blush
+      ? '<ellipse cx="44" cy="96" rx="6" ry="4" fill="#ffb3c1" opacity="0.8"/><ellipse cx="96" cy="96" rx="6" ry="4" fill="#ffb3c1" opacity="0.8"/>'
+      : '<ellipse cx="44" cy="96" rx="5" ry="3" fill="#ffd0a8" opacity="0.7"/><ellipse cx="96" cy="96" rx="5" ry="3" fill="#ffd0a8" opacity="0.7"/>';
+
+    const mouth = wideMouth
+      ? '<path d="M64 100 Q70 108 76 100 Z" fill="#c96a5b"/>'
+      : '<path d="M66 102 Q70 106 74 102" stroke="#b0604f" stroke-width="3.5" stroke-linecap="round" fill="none"/>';
+
+    // 장식
+    let accessory = "";
+    if (bow) {
+      accessory = '<g><path d="M70 122 l-10 -5 l10 5 l-10 5 Z" fill="#ff8fab"/>' +
+        '<path d="M70 122 l10 -5 l-10 5 l10 5 Z" fill="#ff8fab"/><circle cx="70" cy="122" r="3.5" fill="#e85d85"/></g>';
+    } else if (ribbon) {
+      accessory = '<g><path d="M55 32 Q70 22 85 32 Q70 40 55 32 Z" fill="#ffc94d"/>' +
+        '<circle cx="70" cy="32" r="4" fill="#f0a832"/></g>';
+    } else {
+      accessory = '<path d="M70 34 a4 4 0 1 0 0.01 0 Z" fill="#f7c94d" opacity="0.9"/>';
+    }
+
+    const svg =
+      '<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + char.name + '">' +
+        // 몸 (둥근 몸통)
+        '<ellipse cx="70" cy="96" rx="42" ry="38" fill="' + char.body + '"/>' +
+        // 귀
+        '<path d="' + char.ears + '" fill="' + char.ear + '"/>' +
+        // 얼굴 (더 밝은 원)
+        '<circle cx="70" cy="90" r="34" fill="' + char.face + '"/>' +
+        // 얼굴 위 장식 (리본/꽃)
+        accessory +
+        // 눈
+        eye +
+        // 뺨
+        cheek +
+        // 입
+        mouth +
+        // 발 (아래 작은 발)
+        '<ellipse cx="46" cy="130" rx="9" ry="6" fill="' + char.body + '"/>' +
+        '<ellipse cx="94" cy="130" rx="9" ry="6" fill="' + char.body + '"/>' +
+      '</svg>';
+
+    return svg;
   }
 
   /* ---------- 운세 탭 ---------- */

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사주운세 | 오늘의 사주팔자</title>
   <meta name="description" content="생년월일시를 입력하면 사주팔자, 오행 분포, 용신과 주제별 운세를 보여주는 무료 사주 웹사이트입니다." />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
   <header class="site-header">
@@ -56,6 +56,45 @@
             </select>
           </label>
         </div>
+
+        <!-- MBTI 선택 -->
+        <div class="mbti-block">
+          <div class="mbti-head">
+            <span class="mbti-title">MBTI (선택)</span>
+            <span class="mbti-result" id="mbti-preview">–</span>
+          </div>
+          <p class="hint">각 축에서 가까운 쪽을 하나씩 골라보세요. 오행과 어울리는 내 캐릭터를 찾아드려요!</p>
+          <div class="mbti-axes" id="mbti-axes">
+            <div class="mbti-axis" data-axis="EI">
+              <span class="axis-name">에너지</span>
+              <div class="axis-btns">
+                <button type="button" class="mbti-btn" data-axis="EI" data-value="E">E 외향</button>
+                <button type="button" class="mbti-btn" data-axis="EI" data-value="I">I 내향</button>
+              </div>
+            </div>
+            <div class="mbti-axis" data-axis="SN">
+              <span class="axis-name">인식</span>
+              <div class="axis-btns">
+                <button type="button" class="mbti-btn" data-axis="SN" data-value="S">S 감각</button>
+                <button type="button" class="mbti-btn" data-axis="SN" data-value="N">N 직관</button>
+              </div>
+            </div>
+            <div class="mbti-axis" data-axis="TF">
+              <span class="axis-name">판단</span>
+              <div class="axis-btns">
+                <button type="button" class="mbti-btn" data-axis="TF" data-value="T">T 사고</button>
+                <button type="button" class="mbti-btn" data-axis="TF" data-value="F">F 감정</button>
+              </div>
+            </div>
+            <div class="mbti-axis" data-axis="JP">
+              <span class="axis-name">생활</span>
+              <div class="axis-btns">
+                <button type="button" class="mbti-btn" data-axis="JP" data-value="J">J 계획</button>
+                <button type="button" class="mbti-btn" data-axis="JP" data-value="P">P 자유</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <button type="submit" class="btn-primary" id="btn-analyze">사주 풀어보기</button>
       </form>
     </section>
@@ -94,6 +133,23 @@
       <div class="card" id="yongsin">
         <div class="card-head"><h2>용신 · 조율점</h2></div>
         <div id="yongsin-body"></div>
+      </div>
+
+      <!-- MBTI × 사주 캐릭터 -->
+      <div class="card" id="mbti-card">
+        <div class="card-head">
+          <h2>내 사주 캐릭터</h2>
+          <p class="muted">일간 오행과 MBTI가 만나 만든 오늘의 나</p>
+        </div>
+        <div class="character-wrap">
+          <div class="character" id="character-svg"></div>
+          <div class="character-info">
+            <div class="character-name" id="character-name"></div>
+            <div class="character-tags" id="character-tags"></div>
+            <p class="character-desc" id="character-desc"></p>
+          </div>
+        </div>
+        <div class="mbti-reading" id="mbti-reading"></div>
       </div>
 
       <!-- 운세 탭 -->
@@ -155,7 +211,7 @@
     </div>
   </footer>
 
-  <script src="saju.js"></script>
-  <script src="app.js"></script>
+  <script src="saju.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>
