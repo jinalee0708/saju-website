@@ -1,0 +1,21 @@
+{
+  "name": "saju-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild bundle.js --bundle --format=iife --global-name=Saju --outfile=public/saju.js",
+    "serve": "npx http-server public -o -c-1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "saju-fortune": "^0.2.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
